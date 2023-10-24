@@ -1,28 +1,41 @@
-// import List from "./config.js";
-
+import List from "./config.js";
 import express from "express";
 import bodyParser from "body-parser";
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
-app.set("view engine", "ejs");
+app.use(bodyParser.json());
 
-app.get("/", (req,res)=>{
-    var options = { weekday: 'short',  month: 'long', day: 'numeric' };
-    let today = new Date();
-    let currentDay = today.toLocaleDateString("en-US", options)
-    var a = document.getElementById("today");
-    console.log(a);
+app.get("/show/all/items", (req,res)=>{
+   List.find()
+        .then(function(List){
+            res.send(List)
+        })
+        .catch(function(err){
+            console.log(err)
+        })
+}); 
+
+app.post("/create/todo", (req,res)=>{
+    const { newItem } = req.body;
+    const item = new List({
+        name: newItem
+    })
+    item.save();
+    res.redirect("/show/all/items");
 });
 
-app.post("/", (req,res)=>{
+app.put("/update/todo", (req,res)=>{
+    const { obj_id } = req.body;
     
 });
 
+app.post("/delete/todo", (req,res)=>{
+    const { obj_id } = req.body;
+    List.findByIdAndRemove(obj_id);
+});
+
 app.listen(port, ()=>{
-    console.log(`server is running of ${port}`);
+    console.log(`server is running on ${port}`);
 });
