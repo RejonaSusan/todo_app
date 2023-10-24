@@ -7,7 +7,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = 3000;
 
-app.set("view engine", "ejs");
 
 app.get("/", (req,res)=>{
     var options = { weekday: 'short',  month: 'long', day: 'numeric' };
