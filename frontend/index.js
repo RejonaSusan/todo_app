@@ -5,15 +5,16 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express();
-const port = 3000;
+const port = 4000;
 
 
 app.get("/", (req,res)=>{
     var options = { weekday: 'short',  month: 'long', day: 'numeric' };
     let today = new Date();
-    let currentDay = today.toLocaleDateString("en-US", options)
-    var a = document.getElementById("today");
-    console.log(a);
+    let currentDay = today.toLocaleDateString("en-US", options);
+
+    document.getElementById('today').textContent = currentDay;
+    
 });
 
 app.post("/", (req,res)=>{

@@ -1,11 +1,17 @@
 import List from "./config.js";
 import express from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 
 const app = express();
 const port = 4000;
 
 app.use(bodyParser.json());
+app.use(cors());
+
+app.get("/", (req,res)=>{
+    res.send("helloe");
+})
 
 app.get("/show/all/items", (req,res)=>{
    List.find()
@@ -28,7 +34,7 @@ app.post("/create/todo", (req,res)=>{
 
 app.put("/update/todo", (req,res)=>{
     const { obj_id } = req.body;
-    
+
 });
 
 app.post("/delete/todo", (req,res)=>{
