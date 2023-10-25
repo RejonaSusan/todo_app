@@ -19,16 +19,6 @@ app.get("/", async (req,res)=>{
             })
 }); 
 
-// app.post("/create", async (req,res)=>{
-//     try {
-//         const newItem = await List.create(req.body) 
-//         res.status(200).json(newItem)
-//     } catch (err) {
-//         console.log(err.message)
-//         res.status(500).json({message: err.message})
-//     }
-// })
-
 app.post("/item", async (req,res)=>{
     try {
         const { newItem } = req.body;
@@ -47,7 +37,9 @@ app.post("/item", async (req,res)=>{
 app.put("/item/:id", async (req, res)=>{
     try {
         const {id}= req.params;
-        const updateItem = await List.findByIdAndUpdate(id, req.body)
+        const {Name} = req.body;
+        console.log(Name);
+        const updateItem = await List.findByIdAndUpdate(id, {name: Name})
         if(!updateItem){
             return res.status(404).json({message: `not updated/not found`})
         } else {
@@ -68,25 +60,6 @@ app.delete("/item/:id", async (req,res) =>{
     }
     res.redirect("/")
 })
-
-// app.put("/update/todo/:id", async (req,res)=>{
-//     const { id } = req.params;
-//     const item = await List.findById(id, req.body);
-//     console.log(item);
-//     res.redirect("/show/all/items");
-// });
-
-// app.post("/delete/todo/:id", (req,res)=>{
-//     const { obj_id }= req.params;
-//     List.findById(obj_id)
-//     .then((obj_id) => {
-//         console.log(obj_id)
-//        })
-//     .catch((err) => {
-//         console.error('Error removing document:', err);
-//     });
-//     res.redirect("/show/all/items");
-// });
 
 app.listen(port, ()=>{
     console.log(`server is running on ${port}`);
