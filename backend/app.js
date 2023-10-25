@@ -38,13 +38,9 @@ app.put("/item/:id", async (req, res)=>{
     try {
         const {id}= req.params;
         const {Name} = req.body;
-        console.log(Name);
+        const {Status} = req.body;
         const updateItem = await List.findByIdAndUpdate(id, {name: Name})
-        if(!updateItem){
-            return res.status(404).json({message: `not updated/not found`})
-        } else {
-            return res.status(200).json({message: `updated`})
-        }
+        const updateStatus = await List.findByIdAndUpdate(id, {status: Status})
     } catch (err) {
         res.status(500).json({message: err.message})
     }
