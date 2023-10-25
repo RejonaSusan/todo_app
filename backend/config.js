@@ -6,7 +6,7 @@ mongoose.connect(mongoURL, {useNewUrlParser: true, useUnifiedTopology: true})
 
 const todoschema = new mongoose.Schema({
     name: String,
-    status: Number
+    status: Boolean
 });
 
 const List = mongoose.model("List", todoschema);
