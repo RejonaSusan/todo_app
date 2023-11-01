@@ -12,7 +12,7 @@ const Update = () => {
       headers: { 'Content-type': 'application/json' },
       body: JSON.stringify({ Status: true })
     })
-    location.reload();
+    // location.reload();
   })
   } 
 }
@@ -63,3 +63,8 @@ button.addEventListener("click", function () {
   item.value = "";
   getitems();
 });
+
+item.addEventListener('keyup', function(event) {
+  if (event.key === 'Enter') {
+    button.click();
+  }})
