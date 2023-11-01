@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get("/", async (req,res)=>{
-    await List.find()
+    await List.find({status: false})
             .then(function(List){
                 res.send(List)
             })

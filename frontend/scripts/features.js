@@ -1,4 +1,22 @@
 let list = document.getElementById("todos");
+let i = 0
+
+const Update = () => {
+  elements = [];
+  for (let j = 0; j<i; j++){
+    elements.push(document.getElementById(String(j)));
+    elements[j].addEventListener("change", () => {
+    console.log(elements[j].name);
+    fetch(`http://localhost:4000/item/${elements[j].name}`, { 
+      method: "PUT",
+      headers: { 'Content-type': 'application/json' },
+      body: JSON.stringify({ Status: true })
+    })
+    location.reload();
+  })
+  } 
+}
+
 
 const getitems = () => {
   list.innerHTML = "";
@@ -9,20 +27,25 @@ const getitems = () => {
         if (data.hasOwnProperty(key)) {
           var item = data[key];
           var li = document.createElement("li");
-          var checkbox =
-            "<input type='checkbox' class='box' id='" +
-            item._id +
-            "' name='" +
-            item.name +
-            "'>";
-          var label =
-            "<label for='" + item.name + "'>" + item.name + "</label><br>";
-          li.innerHTML = checkbox + label;
+          var checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.className = "box";
+          checkbox.id = i;
+          checkbox.name = item._id;
+          var label = document.createElement("label");
+          label.htmlFor = item.name;
+          label.textContent = item.name;
+          label.appendChild(document.createElement("br"));
+          li.appendChild(checkbox);
+          li.appendChild(label);
           list.appendChild(li);
+          i++;
         }
       }
-    });
+      Update();
+    });  
 };
+
 
 getitems();
 
@@ -40,39 +63,3 @@ button.addEventListener("click", function () {
   item.value = "";
   getitems();
 });
-
-let checkboxes = document.querySelectorAll(".box");
-
-checkboxes.forEach((checkbox)=>{
-  checkbox.onChange= ()=>{
-    console.log("checked")
-  }
-}) 
-
-// for(let i = 0;i < checkboxes.length; i++ ){
-//   console.log(checkboxes)
-//   checkboxes[i].addEventListener("change", function () {
-//   if (checkboxes[i].checked) {
-//     console.log(checkboxes[i])
-//   }
-// });
-// }
-
-
-// fetch(`http://localhost:4000/`)
-//   .then((res) => res.json())
-//   .then((data) => {
-//     for (var key in data) {
-//       if (data.hasOwnProperty(key)) {
-//         var item = data[key];
-//         var id = item._id;
-//         fetch(`http://localhost:4000/item/${id}`, {
-//           method: "PUT",
-//           headers: { "Content-type": "application/json" },
-//           body: JSON.stringify({
-//             status: newStatus,
-//           }),
-//         });
-//       }
-//     }
-//   });
