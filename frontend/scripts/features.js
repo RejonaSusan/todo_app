@@ -1,6 +1,6 @@
 let list = document.getElementById("todos");
 let i = 0;
-let k = -1;
+let k = 1000;
 
 const Update = () => {
   elements = [];
@@ -36,12 +36,11 @@ const getitems = () => {
           var deleteButton = document.createElement("span");
           deleteButton.innerHTML = "\u00d7";
           deleteButton.className = "delete-button";
-          deleteButton.id = i;
+          deleteButton.id = k;
           deleteButton.dataset.info = item._id;
 
           var label = document.createElement("label");
           label.className = "tasks";
-          label.htmlFor = item.name;
           label.textContent = item.name;
 
           label.appendChild(document.createElement("br"));
@@ -52,6 +51,7 @@ const getitems = () => {
 
           list.appendChild(li);
           i++;
+          k++;
         }
       }
       Update();
@@ -83,6 +83,21 @@ item.addEventListener("keyup", function (event) {
   }
 });
 
+const del = () => {
+  elements = [];
+  for (let j = 1000; j < k; j++) {
+    elements.push(document.getElementById(String(j)));
+  }
+  for(let l = 0; l < elements.length; l++){
+    elements[l].addEventListener("click", ()=>{
+      fetch(`http://localhost:4000/item/${elements[l].dataset.info}`, { 
+        method: "DELETE",
+        headers: { "Content-type": "application/json" }
+      })
+      location.reload();
+    })
+  }
+};
 
 
 
