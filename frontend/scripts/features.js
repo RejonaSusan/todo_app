@@ -1,21 +1,20 @@
 let list = document.getElementById("todos");
-let i = 0
+let i = 0;
+let k = -1;
 
 const Update = () => {
   elements = [];
-  for (let j = 0; j<i; j++){
+  for (let j = 0; j < i; j++) {
     elements.push(document.getElementById(String(j)));
     elements[j].addEventListener("change", () => {
-    console.log(elements[j].name);
-    fetch(`http://localhost:4000/item/${elements[j].name}`, { 
-      method: "PUT",
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({ Status: true })
-    })
-    // location.reload();
-  })
-  } 
-}
+      fetch(`http://localhost:4000/item/${elements[j].name}`, {
+        method: "PUT",
+        headers: { "Content-type": "application/json" },
+        body: JSON.stringify({ Status: true }),
+      });
+    });
+  }
+};
 
 
 const getitems = () => {
@@ -27,25 +26,38 @@ const getitems = () => {
         if (data.hasOwnProperty(key)) {
           var item = data[key];
           var li = document.createElement("li");
+
           var checkbox = document.createElement("input");
           checkbox.type = "checkbox";
           checkbox.className = "box";
           checkbox.id = i;
           checkbox.name = item._id;
+
+          var deleteButton = document.createElement("span");
+          deleteButton.innerHTML = "\u00d7";
+          deleteButton.className = "delete-button";
+          deleteButton.id = i;
+          deleteButton.dataset.info = item._id;
+
           var label = document.createElement("label");
+          label.className = "tasks";
           label.htmlFor = item.name;
           label.textContent = item.name;
+
           label.appendChild(document.createElement("br"));
+
           li.appendChild(checkbox);
           li.appendChild(label);
+          li.appendChild(deleteButton);
+
           list.appendChild(li);
           i++;
         }
       }
       Update();
-    });  
+      del();
+    });
 };
-
 
 getitems();
 
@@ -64,7 +76,15 @@ button.addEventListener("click", function () {
   getitems();
 });
 
-item.addEventListener('keyup', function(event) {
-  if (event.key === 'Enter') {
+item.addEventListener("keyup", function (event) {
+  if (event.key === "Enter") {
     button.click();
-  }})
+    location.reload();
+  }
+});
+
+
+
+
+
+
